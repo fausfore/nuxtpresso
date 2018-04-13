@@ -1,0 +1,5 @@
+export * from "./posts.action"
+export * from "./posts.getter"
+export * from "./posts.mutation"
+export * from "./posts.const"
+export * from "./posts.plugin"
