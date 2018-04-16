@@ -1,14 +1,22 @@
-### lancez le container Wordpress
+## Getting Started
 ```bash
-$ docker-compose up -d
-```
-Allez dans le locahost:8000, pour accéder au fichier d'install de wordpress.
+# Start the Docker image:
+$ docker-compose up --build
 
-### lancez le front
-
-```bash
+# Build & start the front server:
 $ npm i && npm run dev
 ```
+
+### Browse to:
+* `locahost:8000`: WordPress Admin Dashboard
+* `localhost:3333`: Nuxt frontend
+
+### Settings:
+* **Enable URL rewriting** for the WP REST API: 
+  Go to `Settings/Permalinks`, select one of the rewritten options, and save.
+* Install required plugins in `Appearance/Install Plugins`
+
+
 
 
 
