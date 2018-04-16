@@ -5,6 +5,7 @@ import {
   ADD_POSTS,
   FETCH_POSTS_OVER
 } from "./posts.const"
+import config from "../../core/env.dev"
 
 export function isEmpty(o) {
   for (var i in o) {
@@ -16,7 +17,7 @@ export function isEmpty(o) {
 }
 
 async function getPosts() {
-  const { data } = await axios.get("http://localhost:8000/wp-json/wp/v2/posts/")
+  const { data } = await axios.get(`${config.apiUrl}/wp-json/wp/v2/posts/`)
   return data
 }
 
@@ -32,21 +33,22 @@ async function buildPost(posts, method) {
 
 async function getAuthor(author_id) {
   return await axios
-    .get(`http://localhost:8000/wp-json/wp/v2/users/${author_id}`)
+    .get(`${config.apiUrl}/wp-json/wp/v2/users/${author_id}`)
     .then(response => response.data)
 }
 
 async function getMedias(media_id) {
   return await axios
-    .get(`http://localhost:8000/wp-json/wp/v2/media/${media_id}`)
+    .get(`${config.apiUrl}/wp-json/wp/v2/media/${media_id}`)
     .then(response => {
       const { media_details } = response.data
       if (isEmpty(media_details)) {
         return "https://bulma.io/images/placeholders/1280x960.png"
       } else {
-        return `http://localhost:8000/wp-content/uploads/${media_details.file}`
+        return `${config.apiUrl}/wp-content/uploads/${media_details.file}`
       }
     })
+    .catch(err => "https://bulma.io/images/placeholders/1280x960.png")
 }
 
 export const actions = {

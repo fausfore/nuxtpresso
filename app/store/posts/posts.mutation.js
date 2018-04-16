@@ -14,10 +14,10 @@ export const mutations = {
     }
   },
   // Add one by one post
-  [ADD_POSTS]({ posts }, payload) {
-    posts = {
-      ...posts,
-      data: [...posts.data, payload]
+  [ADD_POSTS](state, payload) {
+    state.posts = {
+      ...state.posts,
+      data: [...state.posts.data, payload]
     }
   },
   // Change the state to loaded

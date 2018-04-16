@@ -1,10 +1,8 @@
 <script>
 import Header from "~/components/header.vue"
-import AppLogo from "~/components/AppLogo.vue"
 
 export default {
   components: {
-    AppLogo,
     Header
   },
   head: {
