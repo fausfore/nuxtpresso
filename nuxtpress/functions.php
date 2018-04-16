@@ -1,4 +1,5 @@
 <?php
+
 /**
  * NuxtPress functions and definitions.
  *
@@ -197,6 +198,7 @@ add_action( 'rest_api_init', function () {
   ) );
 } );
 
+require_once get_template_directory() . '/class-tgm-plugin-activation.php';
 function nuxtpress_register_required_plugins() {
 	/*
 	 * Array of plugin arrays. Required keys are name and slug.
