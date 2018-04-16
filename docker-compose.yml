@@ -27,7 +27,7 @@ services:
    api:
      depends_on:
        - db
-     image: wordpress:latest
+     image: wordpress 
      volumes:
        - type: bind
          source: ./wordpress
