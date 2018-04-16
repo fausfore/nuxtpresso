@@ -7,8 +7,8 @@
  * @package nuxtpress
  */
 
-if ( ! defined( 'WP_REACT_VERSION' ) ) {
-	define( 'WP_REACT_VERSION', time() );
+if ( ! defined( 'NUXT_PRESS_VERSION' ) ) {
+	define( 'NUXT_PRESS_VERSION', time() );
 }
 
 if ( ! function_exists( 'nuxtpress_setup' ) ) :
@@ -23,7 +23,7 @@ function nuxtpress_setup() {
 	/*
 	 * Make theme available for translation.
 	 * Translations can be filed in the /languages/ directory.
-	 * If you're building a theme based on WpReact, use a find and replace
+	 * If you're building a theme based on NuxtPress, use a find and replace
 	 * to change 'nuxtpress' to the name of your theme in all the template files.
 	 */
 	load_theme_textdomain( 'nuxtpress', get_template_directory() . '/languages' );
@@ -119,76 +119,13 @@ add_action( 'after_setup_theme', 'nuxtpress_content_width', 0 );
  */
 function nuxtpress_scripts() {
 	/*if ( is_customize_preview() ) {
-		wp_enqueue_script( 'nuxtpress-customize-preview', get_template_directory_uri() . '/js/customize-preview.js', array( 'jquery', 'customize-preview', 'customize-preview-nav-menus' ), WP_REACT_VERSION, true );
+		wp_enqueue_script( 'nuxtpress-customize-preview', get_template_directory_uri() . '/js/customize-preview.js', array( 'jquery', 'customize-preview', 'customize-preview-nav-menus' ), NUXT_PRESS_VERSION, true );
 	}*/
 
 	wp_enqueue_style( 'nuxtpress-style', get_stylesheet_uri() );
-	wp_enqueue_script( 'main-js', get_template_directory_uri() . '/compiled/js/main.js', null, WP_REACT_VERSION, true);
-	wp_enqueue_style( 'main-css', get_template_directory_uri() . '/compiled/main.css', null, WP_REACT_VERSION, false);
 }
 add_action( 'wp_enqueue_scripts', 'nuxtpress_scripts' );
 
-/**
- * Returns the Google font stylesheet URL, if available.
- *
- * The use of Source Serif Pro and Source Code Pro by default is
- * localized. For languages that use characters not supported by
- * either font, the font can be disabled.
- *
- * @return string Font stylesheet or empty string if disabled.
- */
-function nuxtpress_fonts_url() {
-	$fonts_url = '';
-
-	/* Translators: If there are characters in your language that are not
-	 * supported by Source Serif Pro, translate this to 'off'. Do not translate
-	 * into your own language.
-	 */
-	$serifpro = _x( 'on', 'Source Serif Pro font: on or off', 'nuxtpress' );
-
-	/* Translators: If there are characters in your language that are not
-	 * supported by Source Code Pro, translate this to 'off'. Do not translate into
-	 * your own language.
-	 */
-	$codepro = _x( 'on', 'Source Code Pro font: on or off', 'nuxtpress' );
-
-	if ( 'off' !== $serifpro || 'off' !== $codepro ) {
-		$font_families = array();
-
-		if ( 'off' !== $serifpro )
-			$font_families[] = urlencode( 'Source Serif Pro:400,700' );
-
-		if ( 'off' !== $codepro )
-			$font_families[] = urlencode( 'Source Code Pro:400,600' );
-
-		$protocol = is_ssl() ? 'https' : 'http';
-		$query_args = array(
-			'family' => implode( '|', $font_families ),
-			'subset' => urlencode( 'latin,latin-ext' ),
-		);
-		$fonts_url = add_query_arg( $query_args, "$protocol://fonts.googleapis.com/css" );
-	}
-
-	return $fonts_url;
-}
-
-/**
- * Loads our special font CSS file.
- *
- * To disable in a child theme, use wp_dequeue_style()
- * function mytheme_dequeue_fonts() {
- *     wp_dequeue_style( 'nuxtpress-fonts' );
- * }
- * add_action( 'wp_enqueue_scripts', 'mytheme_dequeue_fonts', 11 );
- *
- * @return void
- */
-function nuxtpress_fonts() {
-	$fonts_url = nuxtpress_fonts_url();
-	if ( ! empty( $fonts_url ) )
-		wp_enqueue_style( 'nuxtpress-fonts', esc_url_raw( $fonts_url ), array(), null );
-}
-add_action( 'wp_enqueue_scripts', 'nuxtpress_fonts' );
 
 /**
  * Add theme support for Jetpack Features
@@ -259,3 +196,53 @@ add_action( 'rest_api_init', function () {
     'callback' => 'nuxtpress_get_settings',
   ) );
 } );
+
+function nuxtpress_register_required_plugins() {
+	/*
+	 * Array of plugin arrays. Required keys are name and slug.
+	 * If the source is NOT from the .org repo, then source is also required.
+	 */
+	$plugins = array(
+		array(
+			'name'               => 'JWT Authentication for WP REST API', // The plugin name.
+			'slug'               => 'jwt-authentication-for-wp-rest-apitypes', // The plugin slug (typically the folder name).
+			'required'           => true,
+			'force_activation'   => true,
+			'force_deactivation' => false
+		),
+		array(
+			'name'               => 'WP Rest API V2 Menus', // The plugin name.
+			'slug'               => 'wp-rest-api-v2-menus', // The plugin slug (typically the folder name).
+			'required'           => true,
+				'force_activation'   => true,
+				'force_deactivation' => false
+		),
+
+
+	);
+
+	/*
+	 * Array of configuration settings. Amend each line as needed.
+	 *
+	 * TGMPA will start providing localized text strings soon. If you already have translations of our standard
+	 * strings available, please help us make TGMPA even better by giving us access to these translations or by
+	 * sending in a pull-request with .po file(s) with the translations.
+	 *
+	 * Only uncomment the strings in the config array if you want to customize the strings.
+	 */
+	$config = array(
+			'id'           => 'nuxtpress',             // Unique ID for hashing notices for multiple instances of TGMPA.
+			'default_path' => '',                      // Default absolute path to bundled plugins.
+			'menu'         => 'tgmpa-install-plugins', // Menu slug.
+			'parent_slug'  => 'themes.php',            // Parent menu slug.
+			'capability'   => 'edit_theme_options',    // Capability needed to view plugin install page, should be a capability associated with the parent menu used.
+			'has_notices'  => true,                    // Show admin notices or not.
+			'dismissable'  => true,                    // If false, a user cannot dismiss the nag message.
+			'dismiss_msg'  => '',                      // If 'dismissable' is false, this message will be output at top of nag.
+			'is_automatic' => false,                   // Automatically activate plugins after installation or not.
+			'message'      => '',                      // Message to output right before the plugins table.
+	);
+
+	tgmpa( $plugins, $config );
+}
+add_action( 'tgmpa_register', 'nuxtpress_register_required_plugins');
