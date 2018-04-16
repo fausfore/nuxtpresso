@@ -29,14 +29,10 @@ services:
        - db
      image: wordpress 
      volumes:
-<<<<<<< HEAD
        - type: bind
          source: ./wordpress
          target: /var/www/html
-=======
-       - ./wordpress:/var/www/html
        - ./nuxtpress:/var/www/html/wp-content/themes/nuxtpress
->>>>>>> a97b4406bea3f59a03719b4105a151ebb20465fc
      ports:
        - "8000:80"
      restart: always
