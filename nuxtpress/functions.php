@@ -207,7 +207,7 @@ function nuxtpress_register_required_plugins() {
 	$plugins = array(
 		array(
 			'name'               => 'JWT Authentication for WP REST API', // The plugin name.
-			'slug'               => 'jwt-authentication-for-wp-rest-apitypes', // The plugin slug (typically the folder name).
+			'slug'               => 'jwt-authentication-for-wp-rest-api', // The plugin slug (typically the folder name).
 			'required'           => true,
 			'force_activation'   => true,
 			'force_deactivation' => false
