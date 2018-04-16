@@ -1,4 +1,5 @@
 <?php
+
 /**
  * NuxtPress functions and definitions.
  *
