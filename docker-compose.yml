@@ -30,6 +30,7 @@ services:
      image: wordpress:latest
      volumes:
        - ./wordpress:/var/www/html
+       - ./nuxtpress:/var/www/html/wp-content/themes/nuxtpress
      ports:
        - "8000:80"
      restart: always
