@@ -3,7 +3,7 @@ version: '3.3'
 services:
    node:
      links:
-       - wordpress
+       - api
      build: .
      stdin_open: true
      environment:
@@ -24,12 +24,14 @@ services:
        MYSQL_USER: wordpress
        MYSQL_PASSWORD: wordpress
 
-   wordpress:
+   api:
      depends_on:
        - db
-     image: wordpress:latest
+     image: wordpress 
      volumes:
-       - ./wordpress:/var/www/html
+       - type: bind
+         source: ./wordpress
+         target: /var/www/html
        - ./nuxtpress:/var/www/html/wp-content/themes/nuxtpress
      ports:
        - "8000:80"
