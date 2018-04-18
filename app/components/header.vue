@@ -31,7 +31,7 @@ export default {
         `${config.apiUrl}/wp-json/menus/v1/menus/top`
       )
       data.items.forEach(element => {
-        element.slug = element.url.split("/")[3]
+        element.slug = `${element.object}/${element.url.split("/")[3]}`
         console.log(element.slug)
       })
       this.staticUrlList = data.items
@@ -54,11 +54,7 @@ export default {
         <div v-if="isMenuOpen" class="navbar-dropdown">
           <nuxt-link to="/" class="navbar-item">Posts</nuxt-link>
           <hr class="navbar-divider">
-          <a v-for="item of staticUrlList" :key="item.id" :href="item.url" class="navbar-item">{{ item.title }}</a>
-          <!--
-          <nuxt-link v-for="item of staticUrlList" :key="item.id" :to="item.url" class="navbar-item">{{ item.title }}</nuxt-link>
-          <nuxt-link v-for="nav of staticUrlList" :key="nav.id" :to="`/page/${nav.slug}`" class="navbar-item">{{ nav.title.rendered }}</nuxt-link>
-          -->
+          <nuxt-link v-for="item of staticUrlList" :key="item.id" :to="`/${item.slug}`" class="navbar-item">{{ item.title }}</nuxt-link>
         </div>
       </div>
       <div class="navbar-end">
